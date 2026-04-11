@@ -6,6 +6,20 @@ class CreateMessageRequest(BaseModel):
     chat_id: str
     content: str
     tags: Optional[List[str]] = []
+class AskQuestionRequest(BaseModel):
+    chat_id: str
+    content: str
+    contentType: str = "question"
+    tags: Optional[List[str]] = []
+
+class AnswerQuestionRequest(BaseModel):
+    chat_id: str
+    content: str
+    parent_message_id: str
+    contentType: str = "answer"
+    tags: Optional[List[str]] = []
+
+    
 
 class UpdateMessageRequest(BaseModel):
     content: Optional[str]

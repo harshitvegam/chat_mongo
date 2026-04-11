@@ -1,20 +1,21 @@
-from db.mongo import chat_collection
+from db.mongo import chat_collection, user_collection
 from datetime import datetime
 
 from utils import serialize_mongo
-
+import ulid
 class ChatService:
 
     @staticmethod
     async def create_chat(user_id: str):
         try:
-            user = await chat_collection.find_one({"user_id": user_id})
+            user = await user_collection.find_one({"user_id": user_id})
             if not user:
                 return {"error": "User not found"}
             # if user.get("is_active", False):
             #     return {"error": "Active chat already exists for this user"}
             chat = {
                 "user_id": user_id,
+                "chat_id": str(ulid.new()),
                 "is_active": True,
                 "created_at": datetime.utcnow()
             }
@@ -30,7 +31,7 @@ class ChatService:
     @staticmethod
     async def get_chats_by_user(user_id: str, skip: int, limit: int):
         try:
-            user = await chat_collection.find_one({"user_id": user_id})
+            user = await user_collection.find_one({"user_id": user_id})
             if not user:
                 return {"error": "User not found"}
             cursor = chat_collection.find(
