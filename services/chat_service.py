@@ -11,8 +11,6 @@ class ChatService:
             user = await user_collection.find_one({"user_id": user_id})
             if not user:
                 return {"error": "User not found"}
-            # if user.get("is_active", False):
-            #     return {"error": "Active chat already exists for this user"}
             chat = {
                 "user_id": user_id,
                 "chat_id": str(ulid.new()),
