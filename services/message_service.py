@@ -65,10 +65,6 @@ class MessageService:
     @staticmethod
     async def get_complete_chat_history(chat_id: str, skip: int, limit: int):
         try:
-            # chat = chat_collection.find_one({"chat_id": chat_id})
-            # print(f"Chat found: {chat}")
-            # if not chat:
-            #     return {"error": "Chat not found"}
             cursor =  message_collection.find(
                 {"chat_id": chat_id, "is_deleted": False}
             ).sort("timestamp", -1).skip(skip).limit(limit)
